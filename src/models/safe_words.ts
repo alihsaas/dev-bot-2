@@ -1,0 +1,18 @@
+export default [
+  "apple",
+  "car",
+  "cow",
+  "cat",
+  "ruby",
+  "tree",
+  "realms",
+  "banana",
+  "look",
+  "dad",
+  "dog",
+  "won",
+  "child",
+  "nice",
+  "pie",
+  "earth",
+]
