@@ -6,6 +6,9 @@
     "type": "git",
     "url": "https://github.com/alihsaas/dev-bot-2"
   },
+  "engine": {
+  	"node": "14.7.0"
+  },
   "scripts": {
     "start": "npm run serve",
     "build": "npm run build-ts && npm run tslint",

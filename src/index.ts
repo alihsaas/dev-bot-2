@@ -1,7 +1,6 @@
 import { Client } from "discord.js";
 import { CommandHandler } from "./commands/command_handler";
 import { createHmac } from "crypto";
-import http from "http";
 import express from "express";
 import cmd from "node-cmd";
 
@@ -13,22 +12,19 @@ app.get("/", (request, response) => {
   console.log(Date.now() + " Ping Received");
   response.sendStatus(200);
 });
-app.listen(process.env.PORT);
-setInterval(() => {
-  http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
-}, 280000);
+
 app.post('/git', (req, res) => {
   const hmac = createHmac("sha1", process.env.SECRET);
   const sig  = "sha1=" + hmac.update(JSON.stringify(req.body)).digest("hex");
 
   if (req.headers['x-github-event'] === "push") {
     if (sig === req.headers['x-hub-signature']) {
-      cmd.run('chmod 777 git.sh'); /* :/ Fix no perms after updating */
-      cmd.get('./git.sh', (err, data) => {  // Run our script
+      cmd.run('chmod 777 git.sh');
+      cmd.get('./git.sh', (err, data) => {
         if (data) console.log(data);
         if (err) console.log(err);
       });
-      cmd.run('refresh');  // Refresh project
+      cmd.run('refresh');
 
       const commits = req.body.head_commit.message.split("\n").length === 1 ?
       req.body.head_commit.message :
@@ -38,7 +34,7 @@ app.post('/git', (req, res) => {
 
     }
 
-    return res.sendStatus(200); // Send back OK status
+    return res.sendStatus(200);
   }
 });
 

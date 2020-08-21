@@ -33,7 +33,7 @@ export class Verify implements Command {
 
     const accountData = await DataBase.getDataByAuthorId(authorId)
     if (Object.entries(accountData).length !== 0) {
-      await originalMessage.reply(`You already linked to an account: ${accountData[0].accountName}`);
+      await originalMessage.reply(`You are already linked to an account: ${accountData[0].accountName}`);
       throw new Error(`You are already Verified`);
     }
 
@@ -117,6 +117,7 @@ export class Verify implements Command {
   }
 
   hasPermissionToRun(parsedUserCommand: CommandContext): boolean {
-    return parsedUserCommand.originalMessage.member.roles.cache.every( role => role.id !== "601982432723337238" );
+    // parsedUserCommand.originalMessage.member.roles.cache.every( role => role.id !== "601982432723337238" )
+    return true;
   }
 }
