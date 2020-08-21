@@ -1,10 +1,12 @@
 #/bin/sh
 
 # Fetch the newest code
-git fetch origin master
+git fetch master
 
 # Hard reset
-git reset --hard origin/master
+git reset --hard master
 
 # Force pull
-git pull origin master --force
+git pull master --force
+
+npm run build
