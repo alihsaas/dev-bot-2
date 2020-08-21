@@ -17,29 +17,31 @@ const configuration = {
 export class DataBase {
 	public connection: Connection;
 	//  readonly connect: any;
-	public readonly query: any;
+	public query: any;
 	// public readonly end: any;
 
 	constructor() {
 		this.createConnection();
 		// this.connect = promisify(this.connection.connect).bind(this.connection);
-		this.query = promisify(this.connection.query).bind(this.connection);
 		// this.end = promisify(this.connection.end).bind(this.connection);
 	}
 
 	private createConnection() {
 		this.connection = createConnection(configuration);
+		this.query = promisify(this.connection.query).bind(this.connection);
 
 		this.connection.connect( err => {
 			if(err) {
 				console.log('error when connecting to db:', err);
-				setTimeout(createConnection, 2000);
+				setTimeout(() => this.createConnection(), 2000);
 			}
-		})
+		});
+
 		this.connection.on(`error`, (err) => {
 			console.log('db error', err);
 			if(err.code === 'PROTOCOL_CONNECTION_LOST') {
 				this.createConnection();
+				console.log(`created a new connection`);
 			} else {
 				throw err;
 			}
